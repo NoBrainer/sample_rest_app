@@ -36,8 +36,34 @@ mvn clean install
 
 1. Build with `mvn clean install`
 2. Run `ExampleApplication` via your IDE.
-3. Navigate to http://localhost:8080
-4. Login with:
-    - Username: `user`
-    - Password: `<Check logs for: "Using generated security password: PASSWORD">`
-5. Now you can test specific URLs, like http://localhost:8080/api/person/all
+3. The username is `user`
+4. Check the logs for the password: `Using generated security password: PASSWORD`
+
+### Browser Usage:
+
+1. Navigate to http://localhost:8080
+2. Login with the username and password.
+3. Now you can test specific URLs, like http://localhost:8080/api/person/all
+
+### `curl` Usage:
+
+#### Setup `PASSWORD` environment variable
+
+Before getting started, get the password (from steps above) and set it to the `PASS` variable. For example:
+
+```bash
+PASSWORD=c30ebd45-5e81-464b-8eeb-bef9b71404da
+```
+
+#### Get all users
+
+```bash
+curl http://localhost:8080/api/person/all -u user:$PASSWORD
+```
+
+#### Create a user
+
+```bash
+curl -X POST http://localhost:8080/api/person -u user:$PASSWORD \
+  --header "Content-Type: application/json" -d @examples/create-person.json
+```

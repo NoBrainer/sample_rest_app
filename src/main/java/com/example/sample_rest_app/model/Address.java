@@ -1,9 +1,6 @@
 package com.example.sample_rest_app.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
@@ -19,6 +16,7 @@ import java.util.List;
 @Table(name = "address")
 public class Address {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) //TODO: switch to UUID
     Long id;
 
     String streetNumber;
