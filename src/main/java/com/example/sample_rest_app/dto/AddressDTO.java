@@ -1,9 +1,6 @@
-package com.example.sample_rest_app.model;
+package com.example.sample_rest_app.dto;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.Table;
+import com.example.sample_rest_app.model.Person;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
@@ -15,10 +12,7 @@ import java.util.List;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
-@Entity
-@Table(name = "address")
-public class Address {
-    @Id
+public class AddressDTO {
     Long id;
 
     String streetNumber;
@@ -32,6 +26,5 @@ public class Address {
     String country;
 
     @Builder.Default
-    @ManyToMany
     List<Person> people = new ArrayList<>();
 }

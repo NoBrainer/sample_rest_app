@@ -1,8 +1,8 @@
 package com.example.sample_rest_app.controller;
 
-import com.example.sample_rest_app.dto.PersonDTO;
-import com.example.sample_rest_app.mapper.PersonMapper;
-import com.example.sample_rest_app.service.PersonService;
+import com.example.sample_rest_app.dto.AddressDTO;
+import com.example.sample_rest_app.mapper.AddressMapper;
+import com.example.sample_rest_app.service.AddressService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -12,27 +12,27 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/api/person")
-public class PersonController {
-    protected final PersonService service;
+@RequestMapping("/api/address")
+public class AddressController {
+    protected final AddressService service;
 
-    protected static final PersonMapper MAPPER = PersonMapper.INSTANCE;
+    protected static final AddressMapper MAPPER = AddressMapper.INSTANCE;
 
     @PostMapping
-    public PersonDTO create(@RequestBody PersonDTO dto) {
+    public AddressDTO create(@RequestBody AddressDTO dto) {
         var entity = MAPPER.toEntity(dto);
         var savedEntity = service.create(entity);
         return MAPPER.fromEntity(savedEntity);
     }
 
     @GetMapping("/all")
-    public List<PersonDTO> getAll() {
+    public List<AddressDTO> getAll() {
         var entities = service.getAll();
         return MAPPER.fromEntities(entities);
     }
 
     @GetMapping("/paged")
-    public PageImpl<PersonDTO> getAll(Pageable pageable) {
+    public PageImpl<AddressDTO> getAll(Pageable pageable) {
         var page = service.getAll(pageable);
         var entities = page.getContent();
         var dtos = MAPPER.fromEntities(entities);
