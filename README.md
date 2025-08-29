@@ -31,3 +31,13 @@ This is a standard Maven project, so you can use any `mvn` commands.
 ```bash
 mvn clean install
 ```
+
+## Running the App
+
+1. Build with `mvn clean install`
+2. Run `ExampleApplication` via your IDE.
+3. Navigate to http://localhost:8080
+4. Login with:
+    - Username: `user`
+    - Password: `<Check logs for: "Using generated security password: PASSWORD">`
+5. Now you can test specific URLs, like http://localhost:8080/api/person/all
