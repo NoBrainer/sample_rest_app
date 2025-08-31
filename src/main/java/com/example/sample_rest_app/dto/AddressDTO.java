@@ -1,6 +1,6 @@
 package com.example.sample_rest_app.dto;
 
-import com.example.sample_rest_app.model.Person;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
@@ -12,6 +12,7 @@ import java.util.List;
 @Builder(toBuilder = true)
 @NoArgsConstructor
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class AddressDTO {
     Long id;
 
@@ -26,5 +27,5 @@ public class AddressDTO {
     String country;
 
     @Builder.Default
-    List<Person> people = new ArrayList<>();
+    List<PersonDTO> people = new ArrayList<>();
 }
