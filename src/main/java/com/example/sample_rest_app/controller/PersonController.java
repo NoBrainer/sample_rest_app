@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,31 +26,31 @@ public class PersonController {
     //TODO: Try with tests instead?
 
     @PostMapping
-    public PersonDTO create(@RequestBody PersonDTO dto) {
+    public ResponseEntity<PersonDTO> create(@RequestBody PersonDTO dto) {
         log.debug("create called");
         var entity = MAPPER.toEntity(dto);
         log.debug("entity mapped");
         var savedEntity = service.create(entity);
         log.debug("entity saved id={}", savedEntity.getId());
-        return MAPPER.fromEntity(savedEntity);
+        return ResponseEntity.ok(MAPPER.fromEntity(savedEntity));
     }
 
     @GetMapping("/all")
-    public List<PersonDTO> getAll() {
+    public ResponseEntity<List<PersonDTO>> getAll() {
         log.debug("getAll called");
         var entities = service.getAll();
         log.debug("entities retrieved");
-        return MAPPER.fromEntities(entities);
+        return ResponseEntity.ok(MAPPER.fromEntities(entities));
     }
 
     @GetMapping("/paged")
-    public PageImpl<PersonDTO> getAll(Pageable pageable) {
+    public ResponseEntity<PageImpl<PersonDTO>> getAll(Pageable pageable) {
         log.debug("getAll called with pageable={}", pageable);
         var page = service.getAll(pageable);
         log.debug("page of entities retrieved");
         var entities = page.getContent();
         var dtos = MAPPER.fromEntities(entities);
         log.debug("{} dtos converted", dtos.size());
-        return new PageImpl<>(dtos, pageable, page.getTotalElements());
+        return ResponseEntity.ok(new PageImpl<>(dtos, pageable, page.getTotalElements()));
     }
 }

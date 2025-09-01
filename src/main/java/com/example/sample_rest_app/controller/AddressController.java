@@ -6,6 +6,7 @@ import com.example.sample_rest_app.service.AddressService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,23 +20,23 @@ public class AddressController {
     protected static final AddressMapper MAPPER = AddressMapper.INSTANCE;
 
     @PostMapping
-    public AddressDTO create(@RequestBody AddressDTO dto) {
+    public ResponseEntity<AddressDTO> create(@RequestBody AddressDTO dto) {
         var entity = MAPPER.toEntity(dto);
         var savedEntity = service.create(entity);
-        return MAPPER.fromEntity(savedEntity);
+        return ResponseEntity.ok(MAPPER.fromEntity(savedEntity));
     }
 
     @GetMapping("/all")
-    public List<AddressDTO> getAll() {
+    public ResponseEntity<List<AddressDTO>> getAll() {
         var entities = service.getAll();
-        return MAPPER.fromEntities(entities);
+        return ResponseEntity.ok(MAPPER.fromEntities(entities));
     }
 
     @GetMapping("/paged")
-    public PageImpl<AddressDTO> getAll(Pageable pageable) {
+    public ResponseEntity<PageImpl<AddressDTO>> getAll(Pageable pageable) {
         var page = service.getAll(pageable);
         var entities = page.getContent();
         var dtos = MAPPER.fromEntities(entities);
-        return new PageImpl<>(dtos, pageable, page.getTotalElements());
+        return ResponseEntity.ok(new PageImpl<>(dtos, pageable, page.getTotalElements()));
     }
 }
