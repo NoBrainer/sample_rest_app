@@ -30,6 +30,6 @@ public class Address {
     String country;
 
     @Builder.Default
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     List<Person> people = new ArrayList<>();
 }

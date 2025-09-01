@@ -24,6 +24,6 @@ public class Person {
     String lastName;
 
     @Builder.Default
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     List<Address> addresses = new ArrayList<>();
 }

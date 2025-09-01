@@ -2,22 +2,33 @@ package com.example.sample_rest_app.controller;
 
 import com.example.sample_rest_app.MockUtils;
 import com.example.sample_rest_app.dto.PersonDTO;
+import com.example.sample_rest_app.model.Person;
+import com.example.sample_rest_app.repository.PersonRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.server.ResponseStatusException;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import java.util.List;
 
-@SpringBootTest
+import static org.junit.jupiter.api.Assertions.*;
+
+@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 class PersonControllerIntegrationTest {
 
     @Autowired
     PersonController controller;
 
-    @DisplayName("create saves a Person to the database")
+    @Autowired
+    PersonRepository repository;
+
+    @DisplayName("create returns a saved Person with an id")
     @Test
     void testCreate() {
         var personDto = MockUtils.mockCreatePersonDto();
@@ -29,5 +40,61 @@ class PersonControllerIntegrationTest {
         PersonDTO body = response.getBody();
         assertNotNull(body);
         assertNotNull(body.getId());
+    }
+
+    @DisplayName("create fails when the request includes an id")
+    @Test
+    void testCreateWithId() {
+        var personDtoWithId = MockUtils.mockCreatePersonDto().toBuilder().id(123L).build();
+
+        //TODO: Figure out how to test this through GlobalRestControllerAdvice
+        var exception = assertThrows(ResponseStatusException.class, () -> controller.create(personDtoWithId));
+        assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
+        assertEquals("Cannot create a Person with 'id' already set", exception.getReason());
+    }
+
+    @DisplayName("getAll returns an empty list when nothing is saved")
+    @Test
+    void testGetAllNoResults() {
+        ResponseEntity<List<PersonDTO>> response = controller.getAll();
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        assertNotNull(response.getBody());
+        assertTrue(response.getBody().isEmpty());
+    }
+
+    @DisplayName("getAll returns all people")
+    @Test
+    void testGetAllWithResults() {
+        List<Person> savedPeople = repository.findAll();
+
+        ResponseEntity<List<PersonDTO>> response = controller.getAll();
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        List<PersonDTO> dtos = response.getBody();
+        assertNotNull(dtos);
+        assertEquals(savedPeople.size(), dtos.size());
+        savedPeople.forEach(entity -> assertTrue(dtos.stream().anyMatch(dto -> entity.getFirstName().equals(dto.getFirstName()))));
+    }
+
+    @DisplayName("getAll paged returns all people")
+    @Test
+    void testGetAllWithPagedResults() {
+        var savedPeople = repository.findAll();
+        var pageable = Pageable.ofSize(10);
+
+        ResponseEntity<PageImpl<PersonDTO>> response = controller.getAll(pageable);
+        assertNotNull(response);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+
+        PageImpl<PersonDTO> page = response.getBody();
+        assertNotNull(page);
+        assertEquals(savedPeople.size(), page.getTotalElements());
+
+        List<PersonDTO> dtos = page.getContent();
+        assertNotNull(dtos);
+        assertEquals(savedPeople.size(), dtos.size());
+        savedPeople.forEach(entity -> assertTrue(dtos.stream().anyMatch(dto -> entity.getFirstName().equals(dto.getFirstName()))));
     }
 }
