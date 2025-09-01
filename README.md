@@ -58,12 +58,19 @@ PASSWORD=c30ebd45-5e81-464b-8eeb-bef9b71404da
 #### Get all users
 
 ```bash
-curl http://localhost:8080/api/person/all -u user:$PASSWORD
+curl -s http://localhost:8080/api/person/all -u user:$PASSWORD
 ```
 
 #### Create a user
 
 ```bash
-curl -X POST http://localhost:8080/api/person -u user:$PASSWORD \
-  --header "Content-Type: application/json" -d @examples/create-person.json
+# From file
+curl -s -X POST http://localhost:8080/api/person -u user:$PASSWORD \
+  --header "Content-Type: application/json" --header "Accept: application/json" \
+  -d @examples/create-person.json
+
+# With inline JSON
+curl -s -X POST http://localhost:8080/api/person -u user:$PASSWORD \
+  --header "Content-Type: application/json" --header "Accept: application/json" \
+  -d '{"firstName": "Lawrence","middleName": "Sally","lastName": "Juniper","addresses": []}'
 ```
