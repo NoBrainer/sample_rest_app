@@ -4,9 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Data
 @Jacksonized
 @Builder(toBuilder = true)
@@ -20,6 +17,5 @@ public class PersonDTO {
     String middleName;
     String lastName;
 
-    @Builder.Default
-    List<AddressDTO> addresses = new ArrayList<>();
+    AddressDTO address;
 }

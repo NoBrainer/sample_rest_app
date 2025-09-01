@@ -21,36 +21,27 @@ public class PersonController {
 
     protected static final PersonMapper MAPPER = PersonMapper.INSTANCE;
 
-    //TODO: Remove excessive logging after getting the create endpoint to work
-    //TODO: It may not work due to the database not being setup?
-    //TODO: Try with tests instead?
-
     @PostMapping
     public ResponseEntity<PersonDTO> create(@RequestBody PersonDTO dto) {
-        log.debug("create called");
+        log.debug("called create with {}", dto);
         var entity = MAPPER.toEntity(dto);
-        log.debug("entity mapped");
         var savedEntity = service.create(entity);
-        log.debug("entity saved id={}", savedEntity.getId());
         return ResponseEntity.ok(MAPPER.fromEntity(savedEntity));
     }
 
     @GetMapping("/all")
     public ResponseEntity<List<PersonDTO>> getAll() {
-        log.debug("getAll called");
+        log.debug("called getAll");
         var entities = service.getAll();
-        log.debug("entities retrieved");
         return ResponseEntity.ok(MAPPER.fromEntities(entities));
     }
 
     @GetMapping("/paged")
     public ResponseEntity<PageImpl<PersonDTO>> getAll(Pageable pageable) {
-        log.debug("getAll called with pageable={}", pageable);
+        log.debug("called getAll with {}", pageable);
         var page = service.getAll(pageable);
-        log.debug("page of entities retrieved");
         var entities = page.getContent();
         var dtos = MAPPER.fromEntities(entities);
-        log.debug("{} dtos converted", dtos.size());
         return ResponseEntity.ok(new PageImpl<>(dtos, pageable, page.getTotalElements()));
     }
 }

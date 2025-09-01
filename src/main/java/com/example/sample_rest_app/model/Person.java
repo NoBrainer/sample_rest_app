@@ -4,9 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Data
 @Jacksonized
 @Builder(toBuilder = true)
@@ -23,7 +20,6 @@ public class Person {
     String middleName;
     String lastName;
 
-    @Builder.Default
-    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    List<Address> addresses = new ArrayList<>();
+    @OneToOne(cascade = CascadeType.ALL)
+    Address address;
 }

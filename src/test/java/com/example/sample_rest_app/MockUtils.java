@@ -7,8 +7,6 @@ import com.example.sample_rest_app.mapper.PersonMapper;
 import com.example.sample_rest_app.model.Address;
 import com.example.sample_rest_app.model.Person;
 
-import java.util.List;
-
 /**
  * This test data serves as an example for DTOs and entities having all fields set.
  */
@@ -37,7 +35,7 @@ public class MockUtils {
 
     public static PersonDTO mockCreatePersonDto() {
         return flatExamplePersonDto.toBuilder()
-                .addresses(List.of(flatExampleAddressDto))
+                .address(flatExampleAddressDto)
                 .build();
     }
 
@@ -53,18 +51,18 @@ public class MockUtils {
         var person = flatExamplePersonDto.toBuilder().id(personId).build();
         var address = flatExampleAddressDto.toBuilder()
                 .id(addressId)
-                .people(List.of(person))
+                .person(person)
                 .build();
-        person.setAddresses(List.of(address));
+        person.setAddress(address);
         return person;
     }
 
     public static AddressDTO mockAddressDto() {
-        return mockPersonDto().getAddresses().getFirst();
+        return mockPersonDto().getAddress();
     }
 
     public static AddressDTO mockAddressDto(Long personId, Long addressId) {
-        return mockPersonDto(personId, addressId).getAddresses().getFirst();
+        return mockPersonDto(personId, addressId).getAddress();
     }
 
     public static Person mockPerson() {
@@ -75,17 +73,17 @@ public class MockUtils {
         var person = flatExamplePerson.toBuilder().id(personId).build();
         var address = flatExampleAddress.toBuilder()
                 .id(addressId)
-                .people(List.of(person))
+                .person(person)
                 .build();
-        person.setAddresses(List.of(address));
+        person.setAddress(address);
         return person;
     }
 
     public static Address mockAddress() {
-        return mockPerson().getAddresses().getFirst();
+        return mockPerson().getAddress();
     }
 
     public static Address mockAddress(Long personId, Long addressId) {
-        return mockPerson(personId, addressId).getAddresses().getFirst();
+        return mockPerson(personId, addressId).getAddress();
     }
 }

@@ -4,9 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Data
 @Jacksonized
 @Builder(toBuilder = true)
@@ -26,6 +23,5 @@ public class AddressDTO {
 
     String country;
 
-    @Builder.Default
-    List<PersonDTO> people = new ArrayList<>();
+    PersonDTO person;
 }
