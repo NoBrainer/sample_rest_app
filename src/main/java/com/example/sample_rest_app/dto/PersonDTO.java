@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
+import java.util.UUID;
+
 @Data
 @Jacksonized
 @Builder(toBuilder = true)
@@ -11,7 +13,7 @@ import lombok.extern.jackson.Jacksonized;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PersonDTO {
-    Long id;
+    UUID uuid;
 
     String firstName;
     String middleName;

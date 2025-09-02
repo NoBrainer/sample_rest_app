@@ -7,13 +7,15 @@ import com.example.sample_rest_app.mapper.PersonMapper;
 import com.example.sample_rest_app.model.Address;
 import com.example.sample_rest_app.model.Person;
 
+import java.util.UUID;
+
 /**
  * This test data serves as an example for DTOs and entities having all fields set.
  */
 public class MockUtils {
 
-    public static final Long DEFAULT_PERSON_ID = 100L;
-    public static final Long DEFAULT_ADDRESS_ID = 200L;
+    public static final UUID DEFAULT_PERSON_UUID = UUID.randomUUID();
+    public static final UUID DEFAULT_ADDRESS_UUID = UUID.randomUUID();
 
     private static final PersonDTO flatExamplePersonDto = PersonDTO.builder()
             .firstName("Alberta")
@@ -44,13 +46,13 @@ public class MockUtils {
     }
 
     public static PersonDTO mockPersonDto() {
-        return mockPersonDto(DEFAULT_PERSON_ID, DEFAULT_ADDRESS_ID);
+        return mockPersonDto(DEFAULT_PERSON_UUID, DEFAULT_ADDRESS_UUID);
     }
 
-    public static PersonDTO mockPersonDto(Long personId, Long addressId) {
-        var person = flatExamplePersonDto.toBuilder().id(personId).build();
+    public static PersonDTO mockPersonDto(UUID personUuid, UUID addressUuid) {
+        var person = flatExamplePersonDto.toBuilder().uuid(personUuid).build();
         var address = flatExampleAddressDto.toBuilder()
-                .id(addressId)
+                .uuid(addressUuid)
                 .person(person)
                 .build();
         person.setAddress(address);
@@ -61,18 +63,18 @@ public class MockUtils {
         return mockPersonDto().getAddress();
     }
 
-    public static AddressDTO mockAddressDto(Long personId, Long addressId) {
-        return mockPersonDto(personId, addressId).getAddress();
+    public static AddressDTO mockAddressDto(UUID personUuid, UUID addressUuid) {
+        return mockPersonDto(personUuid, addressUuid).getAddress();
     }
 
     public static Person mockPerson() {
-        return mockPerson(DEFAULT_PERSON_ID, DEFAULT_ADDRESS_ID);
+        return mockPerson(DEFAULT_PERSON_UUID, DEFAULT_ADDRESS_UUID);
     }
 
-    public static Person mockPerson(Long personId, Long addressId) {
-        var person = flatExamplePerson.toBuilder().id(personId).build();
+    public static Person mockPerson(UUID personUuid, UUID addressUuid) {
+        var person = flatExamplePerson.toBuilder().uuid(personUuid).build();
         var address = flatExampleAddress.toBuilder()
-                .id(addressId)
+                .uuid(addressUuid)
                 .person(person)
                 .build();
         person.setAddress(address);
@@ -83,7 +85,7 @@ public class MockUtils {
         return mockPerson().getAddress();
     }
 
-    public static Address mockAddress(Long personId, Long addressId) {
-        return mockPerson(personId, addressId).getAddress();
+    public static Address mockAddress(UUID personUuid, UUID addressUuid) {
+        return mockPerson(personUuid, addressUuid).getAddress();
     }
 }

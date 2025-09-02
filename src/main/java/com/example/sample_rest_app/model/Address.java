@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.extern.jackson.Jacksonized;
 
+import java.util.UUID;
+
 @Data
 @Jacksonized
 @Builder(toBuilder = true)
@@ -13,8 +15,8 @@ import lombok.extern.jackson.Jacksonized;
 @Table(name = "address")
 public class Address {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //TODO: switch to UUID
-    Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    UUID uuid;
 
     String streetNumber;
     String streetName;

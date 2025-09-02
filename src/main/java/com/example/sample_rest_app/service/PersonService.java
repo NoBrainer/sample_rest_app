@@ -15,12 +15,14 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class PersonService {
+    public static final String ERROR_PERSON_UUID_ALREADY_SET = "Cannot create a Person with 'uuid' already set";
+
     protected final PersonRepository repository;
 
     @Transactional
     public Person create(Person entity) {
-        if (entity.getId() != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Cannot create a Person with 'id' already set");
+        if (entity.getUuid() != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, ERROR_PERSON_UUID_ALREADY_SET);
         }
         return repository.save(entity);
     }

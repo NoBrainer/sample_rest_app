@@ -4,6 +4,7 @@ import com.example.sample_rest_app.MockUtils;
 import com.example.sample_rest_app.dto.PersonDTO;
 import com.example.sample_rest_app.model.Person;
 import com.example.sample_rest_app.repository.PersonRepository;
+import com.example.sample_rest_app.service.PersonService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -28,7 +30,7 @@ class PersonControllerIntegrationTest {
     @Autowired
     PersonRepository repository;
 
-    @DisplayName("create returns a saved Person with an id")
+    @DisplayName("create returns a saved Person with a uuid")
     @Test
     void testCreate() {
         var personDto = MockUtils.mockCreatePersonDto();
@@ -39,18 +41,18 @@ class PersonControllerIntegrationTest {
 
         PersonDTO body = response.getBody();
         assertNotNull(body);
-        assertNotNull(body.getId());
+        assertNotNull(body.getUuid());
     }
 
-    @DisplayName("create fails when the request includes an id")
+    @DisplayName("create fails when the request includes a uuid")
     @Test
     void testCreateWithId() {
-        var personDtoWithId = MockUtils.mockCreatePersonDto().toBuilder().id(123L).build();
+        var personDtoWithId = MockUtils.mockCreatePersonDto().toBuilder().uuid(UUID.randomUUID()).build();
 
         //TODO: Figure out how to test this through GlobalRestControllerAdvice
         var exception = assertThrows(ResponseStatusException.class, () -> controller.create(personDtoWithId));
         assertEquals(HttpStatus.BAD_REQUEST, exception.getStatusCode());
-        assertEquals("Cannot create a Person with 'id' already set", exception.getReason());
+        assertEquals(PersonService.ERROR_PERSON_UUID_ALREADY_SET, exception.getReason());
     }
 
     @DisplayName("getAll returns an empty list when nothing is saved")
