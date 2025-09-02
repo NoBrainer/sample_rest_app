@@ -38,6 +38,7 @@ mvn clean install
 2. Run `ExampleApplication` via your IDE.
 3. The username is `user`
 4. Check the logs for the password: `Using generated security password: PASSWORD`
+    - If you do not see this, the password is hard-coded in `application.properties`.
 
 ### Browser Usage:
 
