@@ -1,4 +1,4 @@
-package com.example.sample_rest_app;
+package com.example.sample_rest_app.util;
 
 import com.example.sample_rest_app.dto.AddressDTO;
 import com.example.sample_rest_app.dto.PersonDTO;
@@ -12,7 +12,7 @@ import java.util.UUID;
 /**
  * This test data serves as an example for DTOs and entities having all fields set.
  */
-public class MockUtils {
+public class MockUtil {
 
     public static final UUID DEFAULT_PERSON_UUID = UUID.randomUUID();
     public static final UUID DEFAULT_ADDRESS_UUID = UUID.randomUUID();

@@ -1,10 +1,10 @@
 package com.example.sample_rest_app.controller;
 
-import com.example.sample_rest_app.MockUtils;
 import com.example.sample_rest_app.dto.PersonDTO;
 import com.example.sample_rest_app.model.Person;
 import com.example.sample_rest_app.repository.PersonRepository;
 import com.example.sample_rest_app.service.PersonService;
+import com.example.sample_rest_app.util.MockUtil;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +33,7 @@ class PersonControllerIntegrationTest {
     @DisplayName("create returns a saved Person with a uuid")
     @Test
     void testCreate() {
-        var personDto = MockUtils.mockCreatePersonDto();
+        var personDto = MockUtil.mockCreatePersonDto();
 
         var response = controller.create(personDto);
         assertNotNull(response);
@@ -47,7 +47,7 @@ class PersonControllerIntegrationTest {
     @DisplayName("create fails when the request includes a uuid")
     @Test
     void testCreateWithId() {
-        var personDtoWithId = MockUtils.mockCreatePersonDto().toBuilder().uuid(UUID.randomUUID()).build();
+        var personDtoWithId = MockUtil.mockCreatePersonDto().toBuilder().uuid(UUID.randomUUID()).build();
 
         //TODO: Figure out how to test this through GlobalRestControllerAdvice
         var exception = assertThrows(ResponseStatusException.class, () -> controller.create(personDtoWithId));
