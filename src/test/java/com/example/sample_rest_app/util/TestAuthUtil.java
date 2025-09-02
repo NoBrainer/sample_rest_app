@@ -49,4 +49,11 @@ public class TestAuthUtil {
     public static HttpEntity<String> request() {
         return new HttpEntity<>(headers());
     }
+
+    /**
+     * HttpEntity with headers for an authorized user (configured in application.properties) and a body
+     */
+    public static <T> HttpEntity<T> requestWithBody(T body) {
+        return new HttpEntity<>(body, headers());
+    }
 }
