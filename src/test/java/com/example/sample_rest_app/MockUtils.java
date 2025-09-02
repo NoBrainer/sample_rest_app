@@ -41,10 +41,6 @@ public class MockUtils {
                 .build();
     }
 
-    public static AddressDTO mockCreateAddressDto() {
-        return flatExampleAddressDto;
-    }
-
     public static PersonDTO mockPersonDto() {
         return mockPersonDto(DEFAULT_PERSON_UUID, DEFAULT_ADDRESS_UUID);
     }
@@ -59,14 +55,6 @@ public class MockUtils {
         return person;
     }
 
-    public static AddressDTO mockAddressDto() {
-        return mockPersonDto().getAddress();
-    }
-
-    public static AddressDTO mockAddressDto(UUID personUuid, UUID addressUuid) {
-        return mockPersonDto(personUuid, addressUuid).getAddress();
-    }
-
     public static Person mockPerson() {
         return mockPerson(DEFAULT_PERSON_UUID, DEFAULT_ADDRESS_UUID);
     }
@@ -79,13 +67,5 @@ public class MockUtils {
                 .build();
         person.setAddress(address);
         return person;
-    }
-
-    public static Address mockAddress() {
-        return mockPerson().getAddress();
-    }
-
-    public static Address mockAddress(UUID personUuid, UUID addressUuid) {
-        return mockPerson(personUuid, addressUuid).getAddress();
     }
 }
