@@ -11,18 +11,18 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-import static com.example.sample_rest_app.util.ParamUtil.listOfPeopleType;
 import static org.junit.jupiter.api.Assertions.*;
 
 @AutoConfigureMockMvc
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class RestIntegrationTest {
+public class TestRestTemplateIntegrationTest {
 
     @Autowired
     TestRestTemplate template;
@@ -62,5 +62,10 @@ public class RestIntegrationTest {
 
         List<PersonDTO> dtos = response.getBody();
         assertNotNull(dtos);
+    }
+
+    private static ParameterizedTypeReference<List<PersonDTO>> listOfPeopleType() {
+        return new ParameterizedTypeReference<>() {
+        };
     }
 }

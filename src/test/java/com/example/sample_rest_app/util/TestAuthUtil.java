@@ -29,14 +29,14 @@ public class TestAuthUtil {
     private static HttpHeaders headers;
 
     /**
-     * HttpHeaders with an authorized user (configured in application.properties).
+     * HttpHeaders with an authorized user (configured in application.properties)
      */
     public static HttpHeaders headers() {
         if (headers == null) {
             String credentials = String.format("%s:%s", USERNAME, PASSWORD);
             byte[] bytes = credentials.getBytes();
-            byte[] base64Bytes = Base64.encodeBase64(bytes);
-            String encodedCredentials = new String(base64Bytes);
+            byte[] encodedBytes = Base64.encodeBase64(bytes);
+            String encodedCredentials = new String(encodedBytes);
             headers = new HttpHeaders();
             headers.setBasicAuth(encodedCredentials);
         }

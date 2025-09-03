@@ -4,6 +4,7 @@ import com.example.sample_rest_app.dto.PersonDTO;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.type.CollectionType;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import java.net.URI;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
@@ -59,6 +59,7 @@ public class MockMvcIntegrationTest {
         var response = result.getResponse();
         assertNotNull(response);
         String json = response.getContentAsString();
+        assertFalse(StringUtils.isBlank(json));
 
         List<PersonDTO> dtos = parseListOfPeopleDtos(json);
         assertNotNull(dtos);
