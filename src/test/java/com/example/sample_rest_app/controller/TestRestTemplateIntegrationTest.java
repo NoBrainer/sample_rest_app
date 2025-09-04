@@ -30,7 +30,7 @@ public class TestRestTemplateIntegrationTest {
     @DisplayName("return UNAUTHORIZED without credentials")
     @Test
     void testUnauthorizedRequest() {
-        ResponseEntity<List<PersonDTO>> response = template.exchange("/api/person/all", HttpMethod.GET, null, listOfPeopleType());
+        ResponseEntity<List<PersonDTO>> response = template.exchange("/api/person/all", HttpMethod.GET, null, listType());
         assertNotNull(response);
         assertEquals(HttpStatus.UNAUTHORIZED, response.getStatusCode());
     }
@@ -40,7 +40,7 @@ public class TestRestTemplateIntegrationTest {
     void testAuthorizedRequest() {
         var request = TestAuthUtil.request();
 
-        ResponseEntity<List<PersonDTO>> response = template.exchange("/api/person/all", HttpMethod.GET, request, listOfPeopleType());
+        ResponseEntity<List<PersonDTO>> response = template.exchange("/api/person/all", HttpMethod.GET, request, listType());
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
@@ -56,7 +56,7 @@ public class TestRestTemplateIntegrationTest {
         PersonDTO personDto = MockUtil.mockCreatePersonDto();
         var request = TestAuthUtil.requestWithBody(personDto);
 
-        ResponseEntity<List<PersonDTO>> response = template.exchange("/api/person", HttpMethod.POST, request, listOfPeopleType());
+        ResponseEntity<List<PersonDTO>> response = template.exchange("/api/person", HttpMethod.POST, request, listType());
         assertNotNull(response);
         assertEquals(HttpStatus.OK, response.getStatusCode());
 
@@ -64,7 +64,7 @@ public class TestRestTemplateIntegrationTest {
         assertNotNull(dtos);
     }
 
-    private static ParameterizedTypeReference<List<PersonDTO>> listOfPeopleType() {
+    private static <T> ParameterizedTypeReference<List<T>> listType() {
         return new ParameterizedTypeReference<>() {
         };
     }
